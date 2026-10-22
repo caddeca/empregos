@@ -54,6 +54,80 @@ Desenvolvimento do topo compartilhado, da barra de busca e da autenticação de 
 
 **Tecnologias e competências:** C#, ASP.NET, VB.NET, ASP clássico, COM+, AJAX, Web Handlers, XML e modernização incremental.
 
-## Sobre os registros
+## Complementos da pesquisa no HD
 
-Este README apresenta relatos de experiência profissional. As tecnologias, quantidades e entregas correspondem aos registros disponíveis; os diagramas resumem os fluxos descritos. O documento não inclui código-fonte dos projetos relatados.
+Liderança e desenvolvimento de buscas, integrações e modernização de sistemas. Atuação em backend, frontend, intranet, relatórios e SQL Server, com migração de ASP/VB e componentes COM+ para C#/ASP.NET e .NET 3.5.
+
+**Período registrado:** 05/2008 a 07/2012.
+
+## Diagramas dos fluxos
+
+Diagramas reconstruídos a partir dos registros, em nível lógico. Os fluxos conceituais indicam a leitura das responsabilidades descritas e não comprovam a arquitetura física implantada.
+
+### Exportação de vagas
+
+```mermaid
+flowchart LR
+    N0["Alteração de vaga"]
+    N1["Trigger e fila"]
+    N2["Mapear e gerar XML"]
+    N3["Validar XSD e conteúdo"]
+    N4["Enviar FTP para UOL"]
+    N5["Registrar resultado"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
+```
+
+### Pesquisa
+
+```mermaid
+flowchart LR
+    N0["Busca e filtros"]
+    N1["Construir consulta"]
+    N2["Consultar Solr"]
+    N3["Converter JSON"]
+    N4["Aplicar regras de acesso"]
+    N5["Exibir resultado"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
+```
+
+## UML de sequência — Indexação e consulta
+
+```mermaid
+sequenceDiagram
+    participant P0 as Quartz
+    participant P1 as Indexador
+    participant P2 as Base
+    participant P3 as Solr
+    participant P4 as Usuário
+    participant P5 as Busca
+    P0->>P1: Iniciar rotina periódica
+    P1->>P2: Ler registros pendentes
+    P2->>P1: Retornar dados
+    P1->>P3: Indexar e replicar
+    P4->>P5: Pesquisar com filtros
+    P5->>P3: Consultar índice
+    P3->>P5: Retornar JSON
+    P5->>P4: Exibir resultados
+```
+
+## Melhorias propostas
+
+Sugestões para evolução ou documentação; não representam entregas já realizadas.
+
+- Adicionar testes de regressão para relevância e filtros de pesquisa.
+- Definir identificadores de remessa e reconciliação dos arquivos exportados.
+- Documentar separadamente a topologia de cada ambiente: os relatos mencionam três e cinco servidores sem esclarecer a relação entre eles.
+
+## Base documental
+
+Currículos cv-23052020.doc, cv.pdf e cv-05122018.doc; relatos experiencia.txt e resumo-qualificacao-curriculo.txt. Rascunhos/10092010.txt; BuscaAnaliseReformulacao.txt.
+
+Relatos históricos e documentação técnica. Datas divergentes e itens em andamento foram preservados como tais. Este portfólio não contém os documentos originais nem o código-fonte dos sistemas.
